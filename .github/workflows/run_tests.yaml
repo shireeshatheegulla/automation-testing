@@ -44,7 +44,7 @@ jobs:
 
       - name: Run sample pytest
         run: |
-          poetry run pytest tests/test_sample.py -q --junit-xml=reports/test-results.xml --capture=tee-sys
+         pytest tests/test_sample.py
         continue-on-error: true
 
       - name: Upload Test Results
