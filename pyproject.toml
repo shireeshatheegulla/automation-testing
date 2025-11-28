@@ -30,14 +30,8 @@ colorama="==0.4.6"
 click="==8.1.8"
 inquirer = "==2.10.1"
 
-[tool.pytest.ini_options]
-addopts = "-rA -v --env=dev --type=local --capture=no -p no:cacheprovider"
-markers = [
-    { name = "smoke", description = "run smoke tests" },
-    { name = "regression", description = "run regression tests" },
-    { name = "sanity", description = "run sanity tests" },
-    { include = "cli.py", from = "utils" },
-]
+[tool.pytest]
+addopts = ["-rA", "-v", "--env=dev", "--type=local", "--capture=no", "-p", "no:cacheprovider"]
 testpaths = ["tests"]
 python_files = ["*.py"]
 python_classes = [
@@ -45,7 +39,7 @@ python_classes = [
     "*Test*",
     "*Test",
     "*Tests",
-    "*Suite"
+    "*Suite",
 ]
 python_functions = ["test_*"]
 
@@ -58,8 +52,20 @@ filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::ResourceWarning",
     "ignore::FutureWarning",
-    "ignore::PendingDeprecationWarning"
+    "ignore::PendingDeprecationWarning",
 ]
+
+[[tool.pytest.markers]]
+name = "smoke"
+description = "run smoke tests"
+
+[[tool.pytest.markers]]
+name = "regression"
+description = "run regression tests"
+
+[[tool.pytest.markers]]
+name = "sanity"
+description = "run sanity tests"
 
 [tool.pytest.config]
 type = ["local", "firefox", "remote"]  # Define a custom command line option for driver types as a list
