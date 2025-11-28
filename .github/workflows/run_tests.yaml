@@ -34,23 +34,24 @@ jobs:
           poetry --version
           poetry install --no-interaction --no-ansi
 
-      - name: Prepare reports directory
+      - name: Install pytest-html into Poetry venv
         run: |
-          mkdir -p reports
+          # Install pytest-html into the project's virtualenv so pytest can produce HTML reports
+          poetry run pip install pytest-html
 
       - name: Prepare reports directory
         run: |
           mkdir -p reports
 
-      - name: Run sample pytest
+      - name: Run sample pytest and generate HTML report
         run: |
-         pytest tests/test_sample.py
+          poetry run pytest tests/test_sample.py -q --html=reports/report.html --self-contained-html --capture=tee-sys
         continue-on-error: true
 
-      - name: Upload Test Results
+      - name: Upload HTML Test Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: junit-test-results
-          path: reports/test-results.xml
-          retention-days: 1
+          name: html-test-report
+          path: reports/report.html
+          retention-days: 7
